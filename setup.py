@@ -7,7 +7,7 @@ requirements = ["scipy", "sympy", "pandas", "matplotlib", "numpy"]
 
 setup(
     name="crphelper",
-    version="0.0.1",
+    version="0.0.2",
     author="Tomomi (Kelly) Hamamoto",
     author_email="khamamoto@hmc.edu",
     description="A package to help analyze CRPropa simulations",
