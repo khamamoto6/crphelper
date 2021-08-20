@@ -41,7 +41,7 @@ def spectrum(data, nbins=10000, include_normal=False):
     plt.xlabel('Energy')
     plt.ylabel('# particles')
     plt.show()
-    
+
 
 def corr_length(lmin, lmax, nB=-5/3):
     # calculate range of k
@@ -116,7 +116,7 @@ def extension_angles(df, print_average=True):
     theta = np.arccos(temp)*180/math.pi
 
     if print_average:
-        print('\nThe average extension angle is', np.sum(theta)/len(theta), 'degrees')
+        print('The average extension angle is', np.sum(theta)/len(theta), 'degrees')
 
     return theta
 
@@ -137,6 +137,6 @@ def deflection_angles(df, print_average=True):
     delta = np.arccos(temp)*180/math.pi
 
     if print_average:
-        print('\nThe average deflection angle is', np.sum(delta)/len(delta), 'degrees')
+        print('The average deflection angle is', np.sum(delta)/len(delta), 'degrees')
 
     return delta
