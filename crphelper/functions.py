@@ -11,6 +11,10 @@ def extract_e(df):
         df = pd.DataFrame(df)
     data = df[df.iloc[:,3] == 22] #photons
     data = data.iloc[:,4] #energies
+
+    with open('Output.txt', 'w+') as output:
+        output.write(data.to_string())
+
     return data
 
 def extract_e0(df):
@@ -19,11 +23,16 @@ def extract_e0(df):
     df = df.drop_duplicates(subset=[11], keep="first") #remove duplicates
     data = df[df.iloc[:,12] == 22] # photons
     data = data.iloc[:,13] # E0
+
+    with open('Output.txt', 'w+') as output:
+        output.write(data.to_string())
+
     return data
 
 
 def spectrum(data, nbins=10000, include_normal=False):
     bins = np.linspace(0.95*min(data),1.05*max(data),nbins)
+    plt.figure(figsize=(12,4))
 
     if include_normal:
         # plot one: normal
@@ -40,6 +49,7 @@ def spectrum(data, nbins=10000, include_normal=False):
     plt.loglog(bins[0:len(bins)-1],counts)
     plt.xlabel('Energy')
     plt.ylabel('# particles')
+    plt.savefig('Plot.png', dpi=300, bbox_inches='tight')
     plt.show()
 
 
@@ -69,7 +79,7 @@ def find_lmax(lc, lmin, nB=-5/3):
 
 # make plots with the theta/delta angles taken as parameter
 # plot_average: plot average angle binned by the particles' energies
-# plot_hist: plot histogram of angles
+# plot_hist: plot histogram of angles (log-log)
 def plot_angles(df, angles, plot_binned=True, plot_hist=True):
     if not isinstance(df, pd.DataFrame):
         df = pd.DataFrame(df)
@@ -90,12 +100,16 @@ def plot_angles(df, angles, plot_binned=True, plot_hist=True):
         plt.title('Angles Binned by E')
         plt.xlabel('Energy')
         plt.ylabel('Average Angle')
+        lt.savefig('Plot1.png', dpi=300, bbox_inches='tight')
         plt.show()
 
     if plot_hist:
-        plt.hist(angles, bins=np.linspace(0,np.max(angles)*0.2,500))
+        counts, bins, bars = plt.hist(angles, bins=np.linspace(0,np.max(angles)*0.2,500))
+        plt.cla()
+        plt.loglog(bins[0:len(bins)-1],counts)
         plt.xlabel('Angle')
         plt.ylabel('# Particles')
+        lt.savefig('Plot2.png', dpi=300, bbox_inches='tight')
         plt.show()
 
 
@@ -118,6 +132,9 @@ def extension_angles(df, print_average=True):
     if print_average:
         print('The average extension angle is', np.sum(theta)/len(theta), 'degrees')
 
+    with open('Output.txt', 'w+') as output:
+        output.write(pd.DataFrame(theta).to_string())
+
     return theta
 
 
@@ -138,5 +155,8 @@ def deflection_angles(df, print_average=True):
 
     if print_average:
         print('The average deflection angle is', np.sum(delta)/len(delta), 'degrees')
+
+    with open('Output.txt', 'w+') as output:
+        output.write(pd.DataFrame(delta).to_string())
 
     return delta
